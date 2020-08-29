@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-# _*_ coding.utf-8 _*_
-# 开发团队: 待君加入
-# 开发人员：Jianfei
-# 开发时间：9:32 PM
-# 文件名称：prac3.py
-# 开发工具：PyCharm
-=======
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Time    : 2020-08-29 19:19
@@ -13,7 +5,6 @@
 # @Site    : 
 # @File    : prac3.py
 # @Software: PyCharm
->>>>>>> c0639242b98080ee77b24909dd1690b6d4e963f8
 
 """
 checkbutton 练习
@@ -22,19 +13,6 @@ checkbutton 练习
 from tkinter import *
 
 
-<<<<<<< HEAD
-root = Tk()
-
-v = IntVar()
-
-c = Checkbutton(root, text='test', variable=v)
-c.pack()
-
-l = Label(root, textvariable=v)
-l.pack()
-
-root.mainloop()
-=======
 # 普通版
 def normalButton():
     root = Tk()
@@ -121,4 +99,3 @@ elif runCode==3:
     rButton()
 elif runCode==4:
     combination()
->>>>>>> c0639242b98080ee77b24909dd1690b6d4e963f8
