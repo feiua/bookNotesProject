@@ -28,6 +28,7 @@ def normalButton():
     root.mainloop()
     return
 
+
 # 循环版
 def circleButton():
     root = Tk()
@@ -44,6 +45,7 @@ def circleButton():
     root.mainloop()
     return
 
+
 # radiobutton
 def rButton():
     root = Tk()
@@ -59,13 +61,14 @@ def rButton():
     v.set(1)
 
     for lang, num in LANGS:
-        Radiobutton(root, text=lang, variable=v, value=num, indicatoron=False)\
+        Radiobutton(root, text=lang, variable=v, value=num, indicatoron=False) \
             .pack(fill=X)
 
     # Radiobutton(root, text='1', variable=v, value=1).pack(anchor=W)
     # Radiobutton(root, text='2', variable=v, value=2).pack(anchor=W)
     # Radiobutton(root, text='3', variable=v, value=3).pack(anchor=W)
     root.mainloop()
+
 
 # 组合
 def combination():
@@ -89,13 +92,14 @@ def combination():
 
     root.mainloop()
 
+
 runCode = int(input('press 1 or 2 or 3 or 4: '))
 
-if runCode==1:
+if runCode == 1:
     normalButton()
-elif runCode==2:
+elif runCode == 2:
     circleButton()
-elif runCode==3:
+elif runCode == 3:
     rButton()
-elif runCode==4:
+elif runCode == 4:
     combination()
