@@ -12,4 +12,9 @@ from tkinter import *
 
 
 class CellUI:
-    pass
+    def __init__(self, master, text='NA'):
+        self.master = master
+        self.label = Label(self.master, text=text, relief=SUNKEN)
+        pass
+
+
