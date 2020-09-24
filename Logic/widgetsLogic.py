@@ -13,35 +13,61 @@
 """
 
 import uuid
+from tkinter import *
 
 
 # 表格类
 class Table:
-    def __init__(self, colHeaders, rowHeaders):
+    def __init__(self, rowNum, colNum):
         self.cellDict = dict()
-        columnDict = dict()
-        rowDict = dict()
+        self.colDict = dict()
+        self.rowDict = dict()
+        self.rowNum = rowNum
+        self.colNum = colNum
+        self.rowIDs = []
+        self.colIDs = []
+
+        # 初始化行 ID
+        for v in range(rowNum):
+            rowID = uuid.uuid1()
+            self.rowIDs.append(rowID)
+            self.rowDict[rowID] = []
+
+        # 初始化列 ID
+        for v in range(colNum):
+            colID = uuid.uuid1()
+            self.colIDs.append(colID)
+            self.colDict[colID] = []
+
+    # 添加行
+    def addRow(self, rowHeader):
+        pass
+
+    # 添加列
+    def addCol(self):
+        pass
 
 
 # 单元格类
 class Cell:
     def __init__(self, id, rowID, colID, text):
-        self.id = id
-        self.rowID = rowID
-        self.colID = colID
-        self.text = text
+        self.id = id  # 单元格索引的 ID
+        self.rowID = rowID  # 对应行索引的 ID
+        self.colID = colID  # 对应列索引的 ID
+        self.text = text  # 显示在UI界面的文本
 
 
-# 添加行
-def addRow():
-    pass
-
-
-# 添加列
-def addCol():
-    pass
+# 单元格中的标签
+class CellNote:
+    def __init__(self):
+        self.id = uuid.uuid1()
 
 
 # 创建表格
-def createTable(rowHeaders=None, colHeaders=None, ):
+def createTable(rowNum, colNum):
     return Table()
+
+
+# 创建单元格
+def createCell(id, rowID, colID, text):
+    return Cell(id, rowID, colID, text)
