@@ -39,20 +39,20 @@ class MyTable:
             self.rowNum = kwargs['colNum']
             self.colNum = kwargs['rowNum']
             for rowName in range(self.rowNum):
-                self.rowNameDict[uuid.uuid1()] = str(rowName)
+                self.rowNameDict[str(uuid.uuid1())] = str(rowName)
             for colName in range(self.colNum):
-                self.colNameDict[uuid.uuid1()] = str(colName)
+                self.colNameDict[str(uuid.uuid1())] = str(colName)
         if kwargs.keys() & ('colNames', 'rowNames'):
             for rowName in kwargs['rowNames']:
-                self.rowNameDict[uuid.uuid1()] = str(rowName)
+                self.rowNameDict[str(uuid.uuid1())] = str(rowName)
             for colName in kwargs['colNames']:
-                self.colNameDict[uuid.uuid1()] = str(colName)
+                self.colNameDict[str(uuid.uuid1())] = str(colName)
 
         for rowID in self.rowNameDict.keys():
             self.row2CellDict[rowID] = []
             for colID in self.colNameDict.keys():
                 self.col2CellDict[colID] = []
-                cellID = uuid.uuid1()
+                cellID = rowID + colID
                 if cellClass:
                     cell = cellClass(args)
                     self.cellDict[cellID] = cell
@@ -61,7 +61,8 @@ class MyTable:
                 self.cell2RowDict[cellID] = rowID
                 self.cell2ColDict[cellID] = colID
 
-    def __getitem__(self, item):
+    def __getitem__(self, *args, **kwargs):
+        
         pass
 
     def __setitem__(self, key, value):
@@ -69,5 +70,14 @@ class MyTable:
 
 
 if __name__ == "__main__":
-    m = MyTable(colNum=1, rowNum=2)
-    print(m.rowNum, m.colNum)
+    class A:
+        def hold(self):
+            print('father')
+
+    class B(A):
+        def hold(self, k):
+            print(k)
+            super(B, self).hold()
+
+    b = B()
+    b.hold('oo')
