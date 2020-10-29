@@ -11,8 +11,7 @@
 自建容器 包
 """
 
-import numpy as np
-import pandas as pd
+
 import uuid
 
 
@@ -54,7 +53,7 @@ class MyTable:
                 self.col2CellDict[colID] = []
                 cellID = rowID + colID
                 if cellClass:
-                    cell = cellClass(args)
+                    cell = cellClass(*args, **kwargs)
                     self.cellDict[cellID] = cell
                 self.row2CellDict[rowID].append(cellID)
                 self.col2CellDict[colID].append(cellID)
@@ -62,22 +61,25 @@ class MyTable:
                 self.cell2ColDict[cellID] = colID
 
     def __getitem__(self, *args, **kwargs):
-        
-        pass
+        itemID = ''
+        if kwargs:
+            itemID = kwargs['row'] + kwargs['column']
+        else:
+            for each in args:
+                itemID += each
+        return self.cellDict[itemID]
 
-    def __setitem__(self, key, value):
-        pass
+    def __setitem__(self, **kwargs):
+        itemID = kwargs['row'] + kwargs['column']
+        self.cellDict[itemID] = kwargs['value']
 
 
 if __name__ == "__main__":
-    class A:
-        def hold(self):
-            print('father')
+    class MC:
+        def __init__(self, a, b, **kwargs):
+            self.a = a
+            self.b = b
 
-    class B(A):
-        def hold(self, k):
-            print(k)
-            super(B, self).hold()
+    mt = MyTable(MC, 2, 3, rowNum=2, colNum=2)
+    item1 = mt[]
 
-    b = B()
-    b.hold('oo')
