@@ -15,6 +15,14 @@
 import uuid
 
 
+class InputException(Exception):
+    def __init__(self, arg):
+        self.arg = arg
+
+    def __str__(self):
+        print(self.arg)
+
+
 class MyTable:
     def __init__(self, cellClass=None, *args, **kwargs):
         """
@@ -26,6 +34,9 @@ class MyTable:
         colNames: 列名称
         rowNames: 行名称
         """
+        self.cellClass = cellClass
+        self.args = args
+        self.kwargs = kwargs
         self.cellDict = dict()
         self.col2CellDict = dict()  # 通过 column 索引 cell
         self.row2CellDict = dict()  # 通过 row 索引 cell
@@ -52,9 +63,9 @@ class MyTable:
             self.row2CellDict[rowName] = []
             for colID in self.colNameList:
                 self.col2CellDict[colID] = []
-                cellID = rowName + colID
+                cellID = rowName + ' ' + colID
                 if cellClass:
-                    cell = cellClass(*args, **kwargs)
+                    cell = self.cellClass(*self.args, **self.kwargs)
                     self.cellDict[cellID] = cell
                 self.row2CellDict[rowName].append(cellID)
                 self.col2CellDict[colID].append(cellID)
@@ -64,15 +75,36 @@ class MyTable:
     def __getitem__(self, *args, **kwargs):
         itemID = ''
         if kwargs:
-            itemID = kwargs['row'] + kwargs['column']
+            itemID = kwargs['row'] + ' ' + kwargs['column']
         else:
             for each in args:
                 itemID += each
         return self.cellDict[itemID]
 
     def __setitem__(self, **kwargs):
-        itemID = kwargs['row'] + kwargs['column']
+        itemID = kwargs['row'] + ' ' + kwargs['column']
         self.cellDict[itemID] = kwargs['value']
+
+    def __delitem__(self, **kwargs):
+        rowName = kwargs['row']
+        colName = kwargs['col']
+
+        if rowName & colName:
+            itemID = rowName + ' ' + colName
+            if self.cellClass:
+                self.cellDict[itemID] = self.cellClass(*self.args, **self.kwargs)
+            else:
+                self.cellDict[itemID] = None
+        elif rowName:
+            self.rowNameList.remove(rowName)
+            itemIDList = self.row2CellDict.pop(rowName)
+            for item in itemIDList:
+                self.cellDict.pop(item)
+        elif colName:
+            self.colNameList.remove(colName)
+            itemIDList = self.col2CellDict.pop(colName)
+            for item in itemIDList:
+                self.cellDict.pop(item)
 
 
 if __name__ == "__main__":
@@ -81,7 +113,4 @@ if __name__ == "__main__":
             self.a = a
             self.b = b
 
-    k = (1,2,3,4)
-    print(type(list(k)))
-    print(list(k))
 
