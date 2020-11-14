@@ -31,33 +31,34 @@ class MyTable:
         self.row2CellDict = dict()  # 通过 row 索引 cell
         self.cell2ColDict = dict()  # 通过 cell 索引 column
         self.cell2RowDict = dict()  # 通过 cell 索引 row
-        self.rowNameDict = dict()  # 通过 ID 索引行名称
-        self.colNameDict = dict()  # 通过 ID 索引列名称
+        self.rowNameList = []  # rowName 的有序列表
+        self.colNameList = []  # colName 的有序列表
 
         if kwargs.keys() & ('colNum', 'rowNum'):
             self.rowNum = kwargs['colNum']
             self.colNum = kwargs['rowNum']
             for rowName in range(self.rowNum):
-                self.rowNameDict[str(uuid.uuid1())] = str(rowName)
+                rowName = str(uuid.uuid1())
+                self.rowNameList.append(rowName)
             for colName in range(self.colNum):
-                self.colNameDict[str(uuid.uuid1())] = str(colName)
+                colName = str(uuid.uuid1())
+                self.colNameList.append(colName)
         if kwargs.keys() & ('colNames', 'rowNames'):
-            for rowName in kwargs['rowNames']:
-                self.rowNameDict[str(uuid.uuid1())] = str(rowName)
-            for colName in kwargs['colNames']:
-                self.colNameDict[str(uuid.uuid1())] = str(colName)
 
-        for rowID in self.rowNameDict.keys():
-            self.row2CellDict[rowID] = []
-            for colID in self.colNameDict.keys():
+            self.rowNameList = list(kwargs['rowNames'])
+            self.colNameList = list(kwargs['colNames'])
+
+        for rowName in self.rowNameList:
+            self.row2CellDict[rowName] = []
+            for colID in self.colNameList:
                 self.col2CellDict[colID] = []
-                cellID = rowID + colID
+                cellID = rowName + colID
                 if cellClass:
                     cell = cellClass(*args, **kwargs)
                     self.cellDict[cellID] = cell
-                self.row2CellDict[rowID].append(cellID)
+                self.row2CellDict[rowName].append(cellID)
                 self.col2CellDict[colID].append(cellID)
-                self.cell2RowDict[cellID] = rowID
+                self.cell2RowDict[cellID] = rowName
                 self.cell2ColDict[cellID] = colID
 
     def __getitem__(self, *args, **kwargs):
@@ -80,6 +81,7 @@ if __name__ == "__main__":
             self.a = a
             self.b = b
 
-    mt = MyTable(MC, 2, 3, rowNum=2, colNum=2)
-    item1 = mt[]
+    k = (1,2,3,4)
+    print(type(list(k)))
+    print(list(k))
 
