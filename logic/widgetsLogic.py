@@ -14,52 +14,60 @@
 
 import uuid
 from tkinter import *
+import numpy as np
 import pandas
 
 
-# 表格类
-class Table:
-    def __init__(self, rowNum, colNum):
-        self.rowNum = rowNum
-        self.colNum = colNum
-        self.cellDict = dict()
-        self.col3CellDict = dict()  # 通过 column 索引 cell
-        self.row2CellDict = dict()  # 通过 row 索引 cell
-        self.cell2ColDict = dict()  # 通过 cell 索引 column
-        self.cell2RowDict = dict()  # 通过 cell 索引 row
-        self.rowIDs = []
-        self.colIDs = []
+root = Tk()
 
-        # 初始化行 ID
-        for v in range(rowNum):
-            rowID = uuid.uuid1()
-            self.rowIDs.append(rowID)
-            self.row2CellDict[rowID] = []
+# 构造一些全局变量
+global SCREENWIDTH, SCREENHEIGHT, ALPHABET
+SCREENWIDTH = root.winfo_screenwidth()
+SCREENHEIGHT = root.winfo_screenheight()
 
-        # 初始化列 ID
-        for v in range(colNum):
-            colID = uuid.uuid1()
-            self.colIDs.append(colID)
-            self.col3CellDict[colID] = []
+ALPHABET = [chr(i) for i in np.arange(65, 91)]
 
-        # 初始化 Cell 与 行列的索引关系
-        for rowID, rowCellIDs in self.row2CellDict.items():
-            for colID, colCellIDs in self.col3CellDict.items():
-                cellID = uuid.uuid1()
-                cell = createCell(id=cellID, rowID=rowID, colID=colID)
-                self.cellDict[cellID] = cell
-                self.cell2RowDict[cellID] = rowID
-                self.cell2ColDict[cellID] = colID
-                rowCellIDs.append(cellID)
-                colCellIDs.append(cellID)
 
-    # 添加行
-    def addRow(self, rowHeader):
+def createUI(root):
+    """
+    创建 UI 界面
+    :param root:
+    :return:
+    """
+
+    # 放置主界面
+    rootWidth = int(0.8 * SCREENWIDTH)
+    rootHeight = int(0.8 * SCREENHEIGHT)
+    placePrompt = "{width}x{height}+{distance_H}+{distance_V}".format(
+        width=rootWidth,
+        height=rootHeight,
+        distance_H=int((SCREENWIDTH - rootWidth)/2),
+        distance_V=int((SCREENHEIGHT - rootHeight)/2)
+    )
+    root.geometry(placePrompt)
+
+    # 创建菜单栏
+    menuBar = Menu(root)
+
+    def callback():
         pass
 
-    # 添加列
-    def addCol(self):
-        pass
+    fileMenu = Menu(menuBar, tearoff=TRUE)
+    fileMenu.add_command(label='打开', command=callback)
+    menuBar.add_cascade(label='文件', menu=fileMenu)
+
+    root.config(menu=menuBar)
+
+    # 创建类容界面
+    frame = Frame(root)
+    frame.pack()
+
+    # 创建行title标号（类似于excel的行标 "A, B, C..."）
+
+    root.mainloop()
+
+
+createUI(root)
 
 
 # 单元格类
@@ -77,10 +85,14 @@ class CellNote:
 
 
 # 创建表格
-def createTable(rowNum, colNum):
-    return Table()
 
 
 # 创建单元格
 def createCell(id, rowID, colID):
     return Cell(id, rowID, colID)
+
+
+class MyRow:
+    def __init__(self, master, headLabel):
+        self.head = Label(master=master, text=headLabel)
+        self.headLabel = headLabel

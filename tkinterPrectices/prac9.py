@@ -57,7 +57,7 @@ m2.add(bottom2)
 # TopLevel
 def createTopLevel():
     top = Toplevel()
-    top.attributes('alpha', 0.5)
+    top.attributes('-alpha', 1.0)
     top.title('a top level text')
 
     msg = Message(top, text='topLevel message')
