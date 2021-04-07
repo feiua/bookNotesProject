@@ -58,19 +58,11 @@ def createUI(root):
 
     root.config(menu=menuBar)
 
-    # 创建内容界面
+    # 创建类容界面
     frame = Frame(root)
     frame.pack()
 
     # 创建行title标号（类似于excel的行标 "A, B, C..."）
-    class Head:
-        """
-        行列表头的类
-        """
-        def __init__(self, width, height, label):
-            self.width = width
-            self.height = height
-            self.label = label
 
     root.mainloop()
 
