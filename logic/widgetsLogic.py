@@ -84,7 +84,13 @@ class CellNote:
         self.id = uuid.uuid1()
 
 
-# 创建表格
+# 创建单一便签
+class Sticker:
+    def __init__(self, master, text, pic, backcolor, fontColor, ):
+        self.master = master
+
+    pass
+
 
 
 # 创建单元格
