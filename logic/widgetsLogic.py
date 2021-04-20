@@ -84,11 +84,37 @@ class CellNote:
         self.id = uuid.uuid1()
 
 
+# 创建单一信息载体
+class TextCell:
+    def __init__(self, master, text, fontColor, case):
+        """
+
+        :param master:
+        :param text:
+        :param fontColor:
+        :param case:
+        """
+        self.master = master
+        self.text = text
+        self.fontColor = fontColor
+        self.case = case
+        pass
+
+
 # 创建单一便签
 class Sticker:
-    def __init__(self, master, text, pic, backcolor, fontColor, ):
+    def __init__(self, master, text_list, pic, backcolor, ):
+        """
+        用于贴若干便签的面版
+        :param master:
+        :param text_list:
+        :param pic: 面板中的图片
+        :param backcolor: 面板背景色
+        """
         self.master = master
-
+        self.text_list = text_list
+        self.pic = pic
+        self.backcolor = backcolor
     pass
 
 
