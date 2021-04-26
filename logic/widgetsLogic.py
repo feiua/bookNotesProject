@@ -86,19 +86,24 @@ class CellNote:
 
 # 创建单一信息载体
 class TextCell:
-    def __init__(self, master, text, fontColor, case):
+    def __init__(self, master, text, foreground, background, case):
         """
-
         :param master:
         :param text:
-        :param fontColor:
+        :param foreground:
+        :param background:
         :param case:
         """
-        self.master = master
+        self.label = Label(master, text=text, foreground=foreground, background=background)
         self.text = text
-        self.fontColor = fontColor
+        self.fontColor = foreground
         self.case = case
-        pass
+
+    def setForeground(self, foreground):
+        self.label.config(foreground=foreground)
+
+    def setBackground(self, background):
+        self.label.config(background=background)
 
 
 # 创建单一便签
