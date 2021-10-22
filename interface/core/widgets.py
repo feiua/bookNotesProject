@@ -36,7 +36,7 @@ def createNewFile():
 
     Button(top, text='get information', width=10, command=show) \
         .grid(row=2, column=0, sticky=W, padx=10, pady=5)
-    Button(top, text='exit', width=10, command=top.) \
+    Button(top, text='exit', width=10, command=top.destroy) \
         .grid(row=2, column=1, sticky=E, padx=10, pady=5)
 
 
