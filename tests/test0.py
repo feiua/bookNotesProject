@@ -1,35 +1,13 @@
-from tkinter import *
-
-root = Tk()
-
-global SCREENWIDTH, SCREENHEIGHT, ALPHABET
-SCREENWIDTH = root.winfo_screenwidth()
-SCREENHEIGHT = root.winfo_screenheight()
-
-# 菜单栏
-menuBar = Menu(root)
+import sqlite3
 
 
-def callback():
-    print('Hi')
+def insert_data(time, location, person, event, image):
+    conn = sqlite3.connect('D:/UserFiles/文档\GitHub/bookNotesProject/db/data/mydatabase.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS mytable
+                 (time TEXT, location TEXT, person TEXT, event TEXT, image BLOB)''')
+    c.execute("INSERT INTO mytable (time, location, person, event, image) VALUES (?, ?, ?, ?, ?)",
+              (time, location, person, event, image))
+    conn.commit()
+    conn.close()
 
-
-def new():
-    frame = Frame()
-
-
-fileMenu = Menu(menuBar, tearoff=TRUE)
-fileMenu.add_command(label='打开', command=callback)
-fileMenu.add_command(label='保存', command=callback)
-fileMenu.add_command(label='新建', command=callback)
-fileMenu.add_separator()
-fileMenu.add_command(label='退出', command=root.quit)
-menuBar.add_cascade(label='文件', menu=fileMenu)
-
-root.config(menu=menuBar)
-
-
-# 新建项目属性设置界面
-frame1 = Frame(root, ).pack()
-
-root.mainloop()

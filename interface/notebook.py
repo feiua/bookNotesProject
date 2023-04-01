@@ -59,6 +59,7 @@ class Notepad:
                     file.write(self.textarea.get(1.0, tk.END))
 
 
+
 root = tk.Tk()
 notepad = Notepad(root)
 root.mainloop()
