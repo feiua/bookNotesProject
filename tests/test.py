@@ -7,24 +7,7 @@
 # 文件名称：test.py
 # 开发工具：PyCharm
 
+# image = []
+image.append(1)
 
-import tkinter as tk
-
-# Create main window
-root = tk.Tk()
-root.title("Resizable Entry")
-
-# Create Toplevel window
-top = tk.Toplevel(root)
-top.title("Resizable Entry")
-
-# Create Entry widget
-entry = tk.Entry(top)
-entry.grid(row=0, column=0, sticky="nsew")
-
-# Configure grid
-top.grid_rowconfigure(0, weight=1)
-top.grid_columnconfigure(0, weight=1)
-
-# Run main loop
-root.mainloop()
+print(image)
