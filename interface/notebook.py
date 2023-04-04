@@ -8,6 +8,7 @@
 # 4. To try out cursor on your own projects, go to the file menu (top left) and open a folder.
 
 import db
+from db import dataControl
 import tkinter as tk
 from tkinter import filedialog
 import os
@@ -55,12 +56,12 @@ class Notepad:
         self.note_entry.grid(row=2, column=1, padx=5, pady=5)
         self.location_entry.grid(row=3, column=1, padx=5, pady=5)
 
-        image_path = []
+        self.image_path = []
 
         def browse_file():
             filename = filedialog.askopenfilename(initialdir=os.getcwd(), title="Select file",
                                                   filetypes=(("jpeg files", "*.jpg"), ("all files", "*.*")))
-            image_path.append(filename)
+            self.image_path.append(filename)
 
         tk.Button(self.dialog, text="添加图片", command=browse_file)\
             .grid(row=4, column=0, sticky="w")
@@ -70,10 +71,10 @@ class Notepad:
     def save_data_to_database(self):
         title = self.title_entry.get()
         time = self.time_entry.get()
-        notes = self.notes_entry.get()
+        notes = self.note_entry.get()
         location = self.location_entry.get()
-        image = self.image_entry.get()
-        db.insert_data(title, time, notes, location, image)
+        image_path = self.image_path
+        dataControl.insert_data(title, time, notes, location, image_path)
 
 
 root = tk.Tk()
