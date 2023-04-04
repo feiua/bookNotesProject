@@ -55,14 +55,14 @@ class Notepad:
         self.note_entry.grid(row=2, column=1, padx=5, pady=5)
         self.location_entry.grid(row=3, column=1, padx=5, pady=5)
 
-        self.image_path = []
+        image_path = []
 
         def browse_file():
             filename = filedialog.askopenfilename(initialdir=os.getcwd(), title="Select file",
                                                   filetypes=(("jpeg files", "*.jpg"), ("all files", "*.*")))
-            self.image_path.append(filename)
+            image_path.append(filename)
 
-        self.image_button = tk.Button(self.dialog, text="添加图片", command=browse_file)\
+        tk.Button(self.dialog, text="添加图片", command=browse_file)\
             .grid(row=4, column=0, sticky="w")
         tk.Button(self.dialog, text="保存", command=self.save_data_to_database).grid(row=5, column=0, sticky="w")
         tk.Button(self.dialog, text="取消", command=self.dialog.destroy).grid(row=5, column=1, sticky="e")
@@ -72,9 +72,8 @@ class Notepad:
         time = self.time_entry.get()
         notes = self.notes_entry.get()
         location = self.location_entry.get()
-        image_path = self.image_path
-
-        db.insert_data(title, time, notes, location, image_path)
+        image = self.image_entry.get()
+        db.insert_data(title, time, notes, location, image)
 
 
 root = tk.Tk()
