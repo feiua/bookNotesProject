@@ -12,9 +12,9 @@ def insert_data(title, time, notes, location, image_paths):
                          (id INTEGER PRIMARY KEY AUTOINCREMENT,
                          event_id TEXT NOT NULL,
                          title TEXT NOT NULL,
-                         time TEXT NOT NULL,
-                         notes TEXT NOT NULL,
-                         location TEXT NOT NULL);''')
+                         time TEXT NULL,
+                         notes TEXT NULL,
+                         location TEXT NULL);''')
 
     # Create a table to store the images
     conn.execute('''CREATE TABLE IF NOT EXISTS image_table
