@@ -56,12 +56,11 @@ class Notepad:
         self.note_entry.grid(row=2, column=1, padx=5, pady=5)
         self.location_entry.grid(row=3, column=1, padx=5, pady=5)
 
-        self.image_path = []
+        self.image_paths = []
 
         def browse_file():
-            filename = filedialog.askopenfilename(initialdir=os.getcwd(), title="Select file",
+            self.image_paths = filedialog.askopenfilenames(initialdir=os.getcwd(), title="Select image",
                                                   filetypes=(("jpeg files", "*.jpg"), ("all files", "*.*")))
-            self.image_path.append(filename)
 
         tk.Button(self.dialog, text="添加图片", command=browse_file)\
             .grid(row=4, column=0, sticky="w")
@@ -73,9 +72,9 @@ class Notepad:
         time = self.time_entry.get()
         notes = self.note_entry.get()
         location = self.location_entry.get()
-        image_path = self.image_path
-        dataControl.insert_data(title, time, notes, location, image_path)
-
+        image_paths = self.image_paths
+        dataControl.insert_data(title, time, notes, location, image_paths)
+        self.dialog.destroy()
 
 root = tk.Tk()
 notepad = Notepad(root)

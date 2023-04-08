@@ -7,7 +7,15 @@
 # 文件名称：test.py
 # 开发工具：PyCharm
 
-# image = []
-image.append(1)
+import uuid
 
-print(image)
+# Generate a new UUID value
+k = uuid.uuid4()
+
+# Do something with the event_id value
+print(type(k))
+
+a = 1 + int(k)
+print(a)
+
+print(type(str(k)))
