@@ -7,15 +7,50 @@
 # 文件名称：test.py
 # 开发工具：PyCharm
 
-import uuid
+import sqlite3
+import tkinter as tk
+from tkinter import ttk
 
-# Generate a new UUID value
-k = uuid.uuid4()
+# Connect to the database
+conn = sqlite3.connect('path/to/database.db')
+c = conn.cursor()
 
-# Do something with the event_id value
-print(type(k))
+# Create a new window
+root = tk.Tk()
 
-a = 1 + int(k)
-print(a)
+# Create a table widget
+table = ttk.Treeview(root)
 
-print(type(str(k)))
+# Define the columns
+table['columns'] = ('id', 'name', 'age', 'gender')
+
+# Format the columns
+table.column('#0', width=0, stretch=tk.NO)
+table.column('id', anchor=tk.CENTER, width=100)
+table.column('name', anchor=tk.CENTER, width=100)
+table.column('age', anchor=tk.CENTER, width=100)
+table.column('gender', anchor=tk.CENTER, width=100)
+
+# Create the headings
+table.heading('#0', text='', anchor=tk.CENTER)
+table.heading('id', text='ID', anchor=tk.CENTER)
+table.heading('name', text='Name', anchor=tk.CENTER)
+table.heading('age', text='Age', anchor=tk.CENTER)
+table.heading('gender', text='Gender', anchor=tk.CENTER)
+
+# Retrieve the data from the database
+c.execute('SELECT * FROM mytable')
+rows = c.fetchall()
+
+# Add the data to the table
+for row in rows:
+    table.insert(parent='', index='end', iid=row[0], values=row)
+
+# Pack the table into the window
+table.pack()
+
+# Run the tkinter event loop
+root.mainloop()
+
+# Close the database connection
+conn.close()

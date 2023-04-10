@@ -7,8 +7,7 @@
 # 3. Try selecting some code and hitting edit. Ask the bot to add residual layers.
 # 4. To try out cursor on your own projects, go to the file menu (top left) and open a folder.
 
-import db
-from db import dataControl
+from db import data_control
 import tkinter as tk
 from tkinter import filedialog
 import os
@@ -24,18 +23,15 @@ class Notepad:
 
         self.menu = tk.Menu(master)
         self.file_menu = tk.Menu(self.menu, tearoff=0)
-        self.file_menu.add_command(label="New", command=self.new_file)
-        self.file_menu.add_command(label="Open", command=self.open_file)
+        self.file_menu.add_command(label="New", command=self.new_file) # create/add a record
+        self.file_menu.add_command(label="Open", command=self.open_file) # open a notebook from the database
         self.menu.add_cascade(label="File", menu=self.file_menu)
 
         master.config(menu=self.menu)
 
     def open_file(self):
-        file_path = filedialog.askopenfilename()
-        if file_path:
-            with open(file_path, "r") as file:
-                self.textarea.delete(1.0, tk.END)
-                self.textarea.insert(tk.END, file.read())
+        data_control.open_notebook()
+
 
     def new_file(self):
         self.textarea.delete(1.0, tk.END)
@@ -62,19 +58,25 @@ class Notepad:
             self.image_paths = filedialog.askopenfilenames(initialdir=os.getcwd(), title="Select image",
                                                   filetypes=(("jpeg files", "*.jpg"), ("all files", "*.*")))
 
+        def save_data_to_database():
+            title = self.title_entry.get()
+            time = self.time_entry.get()
+            notes = self.note_entry.get()
+            location = self.location_entry.get()
+            image_paths = self.image_paths
+            data_control.insert_data(title, time, notes, location, image_paths)
+            self.dialog.destroy()
+
         tk.Button(self.dialog, text="添加图片", command=browse_file)\
             .grid(row=4, column=0, sticky="w")
-        tk.Button(self.dialog, text="保存", command=self.save_data_to_database).grid(row=5, column=0, sticky="w")
+        tk.Button(self.dialog, text="保存", command=save_data_to_database).grid(row=5, column=0, sticky="w")
         tk.Button(self.dialog, text="取消", command=self.dialog.destroy).grid(row=5, column=1, sticky="e")
 
-    def save_data_to_database(self):
-        title = self.title_entry.get()
-        time = self.time_entry.get()
-        notes = self.note_entry.get()
-        location = self.location_entry.get()
-        image_paths = self.image_paths
-        dataControl.insert_data(title, time, notes, location, image_paths)
-        self.dialog.destroy()
+
+
+    def delete_data(self):
+        pass
+
 
 root = tk.Tk()
 notepad = Notepad(root)

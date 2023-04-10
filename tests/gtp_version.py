@@ -8,60 +8,35 @@
 # 开发工具：PyCharm
 
 import tkinter as tk
+from tkinter import ttk
 
-class Notepad:
-    def __init__(self, master):
-        self.master = master
-        self.master.title('Notepad')
+# Create a new window
+root = tk.Tk()
 
-        # create a menu bar
-        menubar = tk.Menu(self.master)
-        filemenu = tk.Menu(menubar, tearoff=0)
-        filemenu.add_command(label='New', command=self.new_note)
-        filemenu.add_command(label='Open', command=self.open_note)
-        menubar.add_cascade(label='File', menu=filemenu)
-        self.master.config(menu=menubar)
+# Create a table widget
+table = ttk.Treeview(root)
 
-    def new_note(self):
-        # create a new note
-        new_window = tk.Toplevel(self.master)
-        new_window.title('New Note')
+# Define the columns
+table['columns'] = ('name', 'age', 'gender')
 
-        # create labels and entry fields for the note information
-        title_label = tk.Label(new_window, text='Title:')
-        title_entry = tk.Entry(new_window)
-        time_label = tk.Label(new_window, text='Time:')
-        time_entry = tk.Entry(new_window)
-        location_label = tk.Label(new_window, text='Location:')
-        location_entry = tk.Entry(new_window)
-        people_label = tk.Label(new_window, text='People:')
-        people_entry = tk.Entry(new_window)
-        event_label = tk.Label(new_window, text='Event:')
-        event_entry = tk.Entry(new_window)
+# Format the columns
+table.column('#0', width=0, stretch=tk.NO)
+table.column('name', anchor=tk.CENTER, width=100)
+table.column('age', anchor=tk.CENTER, width=100)
+table.column('gender', anchor=tk.CENTER, width=100)
 
-        # create a save button
-        save_button = tk.Button(new_window,
-                                text='Save',
-                                command=lambda: self.save_note(title_entry.get(),
-                                                               time_entry.get(), location_entry.get(), people_entry.get(), event_entry.get()))
+# Create the headings
+table.heading('#0', text='', anchor=tk.CENTER)
+table.heading('name', text='Name', anchor=tk.CENTER)
+table.heading('age', text='Age', anchor=tk.CENTER)
+table.heading('gender', text='Gender', anchor=tk.CENTER)
 
-        # grid the labels, entry fields, and save button
-        title_label.grid(row=0, column=0, padx=5, pady=5, sticky='w')
-        title_entry.grid(row=0, column=1, padx=5, pady=5, sticky='e')
-        time_label.grid(row=1, column=0, padx=5, pady=5, sticky='w')
-        time_entry.grid(row=1, column=1, padx=5, pady=5, sticky='e')
-        location_label.grid(row=2, column=0, padx=5, pady=5, sticky='w')
-        location_entry.grid(row=2, column=1, padx=5, pady=5, sticky='e')
-        people_label.grid(row=3, column=0, padx=5, pady=5, sticky='w')
-        people_entry.grid(row=3, column=1, padx=5, pady=5, sticky='e')
-        event_label.grid(row=4, column=0, padx=5, pady=5, sticky='w')
-        event_entry.grid(row=4, column=1, padx=5, pady=5, sticky='e')
+# Add the data
+table.insert(parent='', index='end', iid=0, values=('John', 25, 'Male'))
+table.insert(parent='', index='end', iid=1, values=('Jane', 30, 'Female'))
 
-    def open_note(self):
-        # open an existing note
-        pass
+# Pack the table into the window
+table.pack()
 
-if __name__ == '__main__':
-    root = tk.Tk()
-    app = Notepad(root)
-    root.mainloop()
+# Run the tkinter event loop
+root.mainloop()

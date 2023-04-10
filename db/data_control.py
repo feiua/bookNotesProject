@@ -40,3 +40,16 @@ def insert_data(title, time, notes, location, image_paths):
 
     conn.commit()
     conn.close()
+
+def open_notebook():
+    # the default database opened is "mydatabase.db"
+    conn = sqlite3.connect(r'D:/UserFiles/文档\GitHub/bookNotesProject/db/data/mydatabase.db')
+    c = conn.cursor()
+    c.execute('pragma table_info(event_table)')
+    col_names = c.fetchall()
+    col_names = [x[1] for x in col_names]
+
+
+
+
+    pass
