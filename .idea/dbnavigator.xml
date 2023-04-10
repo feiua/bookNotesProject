@@ -23,7 +23,9 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="d88d6f70-8321-421e-95ab-6f1e3a682233" object-ref="schemas/mydatabase/tables/event_table" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="e44ef5f2-2b86-4261-8bf3-0b51176a2445" dataset="mydatabase.event_table" active-filter-id="19a9d9e1-436d-4e2d-93d5-1c884c33e0ba">
