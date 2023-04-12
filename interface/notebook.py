@@ -9,6 +9,7 @@
 
 from db import data_control
 import tkinter as tk
+from tkinter import ttk
 from tkinter import filedialog
 import os
 
@@ -30,7 +31,49 @@ class Notepad:
         master.config(menu=self.menu)
 
     def open_file(self):
-        data_control.open_notebook()
+        database_path = r'D:/UserFiles/文档\GitHub/bookNotesProject/db/data/mydatabase.db'
+        col_names, rows = data_control.get_table_data(database_path)
+
+        # Create a frame to hold the table and buttons
+        self.dialog = tk.Toplevel()
+        self.dialog.title("Table View")
+        frame = tk.Frame(self.dialog)
+        frame.pack(side="top", fill="both", expand=True)
+
+        # Create a table widget
+        style = ttk.Style()
+        style.configure("Treeview.Heading", rowheight=400)
+        style.configure("Treeview", rowheight=30)
+        table = ttk.Treeview(frame)
+        table.pack(side="left", fill="both", expand=True)
+
+        # Define the columns
+        table['columns'] = col_names
+
+        # Format the columns
+        table.column('#0', width=0, stretch=tk.NO)
+        for col_name in col_names:
+            table.column(str(col_name), anchor=tk.CENTER, width=100)
+
+        # Create the headings
+        table.heading('#0', text='', anchor=tk.CENTER)
+        for col_name in col_names:
+            table.heading(str(col_name).lower(), text=str(col_name), anchor=tk.CENTER)
+
+        # Add the data to the table
+        for row in rows:
+            table.insert(parent='', index='end', iid=row[0], values=row)
+
+        # Create a frame to hold the buttons
+        button_frame = tk.Frame(frame)
+        button_frame.pack(side="right", fill="y")
+        tk.Frame(button_frame, height=25).pack(side="top", fill="x")
+
+        # Create a button for each row in the table
+        for item in table.get_children():
+            button = tk.Button(button_frame, text="Edit")
+            button.configure(width=5, height=1)
+            button.pack(side="top", fill="x")
 
 
     def new_file(self):
@@ -71,7 +114,6 @@ class Notepad:
             .grid(row=4, column=0, sticky="w")
         tk.Button(self.dialog, text="保存", command=save_data_to_database).grid(row=5, column=0, sticky="w")
         tk.Button(self.dialog, text="取消", command=self.dialog.destroy).grid(row=5, column=1, sticky="e")
-
 
 
     def delete_data(self):

@@ -8,49 +8,68 @@
 # 开发工具：PyCharm
 
 import sqlite3
+import os
+import uuid
 import tkinter as tk
 from tkinter import ttk
 
-# Connect to the database
-conn = sqlite3.connect('path/to/database.db')
+# the default database opened is "mydatabase.db"
+conn = sqlite3.connect(r'D:/UserFiles/文档\GitHub/bookNotesProject/db/data/mydatabase.db')
 c = conn.cursor()
+c.execute('pragma table_info(event_table)')
 
-# Create a new window
+# Get all headings of the table
+col_names = c.fetchall()
+col_names = [x[1] for x in col_names]
+
+# Get all rows from the table
+c.execute('SELECT * FROM event_table')
+rows = c.fetchall()
+
+conn.close()
+
+# Create a new window to show data from database
 root = tk.Tk()
+root.title("Notepad")
+
+# Create a frame to hold the table and buttons
+frame = tk.Frame(root)
+frame.pack(side="top", fill="both", expand=True)
 
 # Create a table widget
-table = ttk.Treeview(root)
+style = ttk.Style()
+style.configure("Treeview.Heading", rowheight=400)
+style.configure("Treeview", rowheight=30)
+table = ttk.Treeview(frame)
+table.pack(side="left", fill="both", expand=True)
 
 # Define the columns
-table['columns'] = ('id', 'name', 'age', 'gender')
+table['columns'] = col_names
 
 # Format the columns
 table.column('#0', width=0, stretch=tk.NO)
-table.column('id', anchor=tk.CENTER, width=100)
-table.column('name', anchor=tk.CENTER, width=100)
-table.column('age', anchor=tk.CENTER, width=100)
-table.column('gender', anchor=tk.CENTER, width=100)
+for col_name in col_names:
+    table.column(str(col_name), anchor=tk.CENTER, width=100)
 
 # Create the headings
 table.heading('#0', text='', anchor=tk.CENTER)
-table.heading('id', text='ID', anchor=tk.CENTER)
-table.heading('name', text='Name', anchor=tk.CENTER)
-table.heading('age', text='Age', anchor=tk.CENTER)
-table.heading('gender', text='Gender', anchor=tk.CENTER)
-
-# Retrieve the data from the database
-c.execute('SELECT * FROM mytable')
-rows = c.fetchall()
+for col_name in col_names:
+    table.heading(str(col_name).lower(), text=str(col_name), anchor=tk.CENTER)
 
 # Add the data to the table
 for row in rows:
     table.insert(parent='', index='end', iid=row[0], values=row)
 
-# Pack the table into the window
-table.pack()
+# Create a frame to hold the buttons
+button_frame = tk.Frame(frame)
+button_frame.pack(side="right", fill="y")
+tk.Frame(button_frame, height=25).pack(side="top", fill="x")
+
+# Create a button for each row in the table
+for item in table.get_children():
+    button = tk.Button(button_frame, text="Edit")
+    button.configure(width=5, height=1)
+    button.pack(side="top", fill="x")
 
 # Run the tkinter event loop
 root.mainloop()
-
-# Close the database connection
-conn.close()
