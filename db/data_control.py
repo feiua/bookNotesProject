@@ -6,7 +6,9 @@ from tkinter import ttk
 
 
 def insert_data(title, time, notes, location, image_paths):
-    conn = sqlite3.connect(r'D:/UserFiles/文档\GitHub/bookNotesProject/db/data/mydatabase.db')
+    # database_path = r'D:/UserFiles/文档/GitHub/bookNotesProject/db/data/mydatabase.db'
+    database_path = r'E:/PythonCode/practices/bookNotesProject/db/data/mydatabase.db'
+    conn = sqlite3.connect(database_path)
     c = conn.cursor()
 
     # Create a table to store the events

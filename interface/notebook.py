@@ -22,7 +22,8 @@ class Notepad:
         master.config(menu=self.menu)
 
     def open_file(self):
-        database_path = r'D:/UserFiles/文档\GitHub/bookNotesProject/db/data/mydatabase.db'
+        # database_path = r'D:/UserFiles/文档/GitHub/bookNotesProject/db/data/mydatabase.db'
+        database_path = r'E:/PythonCode/practices/bookNotesProject/db/data/mydatabase.db'
         col_names, rows = data_control.get_table_data(database_path)
 
         # Create a frame to hold the table and buttons
@@ -73,18 +74,39 @@ class Notepad:
         self.file_path = None
         self.dialog = tk.Toplevel()
         self.dialog.title("New Event")
-        tk.Label(self.dialog, text="Title:").grid(row=0, column=0, sticky="w")
-        tk.Label(self.dialog, text="Time:").grid(row=1, column=0, sticky="w")
-        tk.Label(self.dialog, text="Note:").grid(row=2, column=0, sticky="w")
-        tk.Label(self.dialog, text="location:").grid(row=3, column=0, sticky="w")
-        self.title_entry = tk.Entry(self.dialog)
-        self.time_entry = tk.Entry(self.dialog)
-        self.note_entry = tk.Entry(self.dialog)
-        self.location_entry = tk.Entry(self.dialog)
-        self.title_entry.grid(row=0, column=1, padx=5, pady=5)
-        self.time_entry.grid(row=1, column=1, padx=5, pady=5)
-        self.note_entry.grid(row=2, column=1, padx=5, pady=5)
-        self.location_entry.grid(row=3, column=1, padx=5, pady=5)
+
+        # create frames to place entries and labels and buttons
+        entry_frame = tk.Frame(self.dialog)
+        entry_frame.pack(side="top", fill="both", expand=True)
+
+        entry_frame.columnconfigure(0, minsize=10)  # column to place labels
+        entry_frame.columnconfigure(1, weight=1)  # column to place entries
+        entry_frame.columnconfigure(2, minsize=20)  # column for margin on right side
+
+        button_frame = tk.Frame(self.dialog)
+        button_frame.pack(side="top", fill="both", expand=True)
+        button_frame.columnconfigure(0, minsize=20)
+        button_frame.columnconfigure(1, weight=1)
+        button_frame.columnconfigure(2, weight=1)
+        button_frame.columnconfigure(3, minsize=20)
+
+        bottom_frame = tk.Frame(self.dialog, height=10)
+        bottom_frame.pack(side="top")
+
+
+        # place labels and entries
+        tk.Label(entry_frame, text="Title:", width=10).grid(row=0, column=0)
+        tk.Label(entry_frame, text="Time:", width=10).grid(row=1, column=0)
+        tk.Label(entry_frame, text="Note:", width=10).grid(row=2, column=0)
+        tk.Label(entry_frame, text="location:", width=10).grid(row=3, column=0)
+        self.title_entry = tk.Entry(entry_frame)
+        self.time_entry = tk.Entry(entry_frame)
+        self.note_entry = tk.Entry(entry_frame)
+        self.location_entry = tk.Entry(entry_frame)
+        self.title_entry.grid(row=0, column=1, sticky="ew")
+        self.time_entry.grid(row=1, column=1, sticky="ew")
+        self.note_entry.grid(row=2, column=1, sticky="ew")
+        self.location_entry.grid(row=3, column=1, sticky="ew")
 
         self.image_paths = []
 
@@ -101,10 +123,10 @@ class Notepad:
             data_control.insert_data(title, time, notes, location, image_paths)
             self.dialog.destroy()
 
-        tk.Button(self.dialog, text="添加图片", command=browse_file)\
-            .grid(row=4, column=0, sticky="w")
-        tk.Button(self.dialog, text="保存", command=save_data_to_database).grid(row=5, column=0, sticky="w")
-        tk.Button(self.dialog, text="取消", command=self.dialog.destroy).grid(row=5, column=1, sticky="e")
+        tk.Button(button_frame, text="添加图片", command=browse_file)\
+            .grid(row=0, column=1, sticky="ew")
+        tk.Button(button_frame, text="保存", command=save_data_to_database).grid(row=1, column=1, sticky="ws")
+        tk.Button(button_frame, text="取消", command=self.dialog.destroy).grid(row=1, column=2, sticky="es")
 
 
     def delete_data(self):
