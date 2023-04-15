@@ -1,138 +1,77 @@
-from db import data_control
+#!/usr/bin/env python
+# _*_ coding.utf-8 _*_
+# @Site    : 
+# 开发团队: 待君加入
+# 开发人员：Lenovo
+# 开发时间：2020-09-2616:18
+# 文件名称：test.py
+# 开发工具：PyCharm
+
+
+import sqlite3
+import os
+import io
 import tkinter as tk
 from tkinter import ttk
-from tkinter import filedialog
-import os
+from PIL import Image, ImageTk
 
 
-class Notepad:
-    def __init__(self, master):
-        self.master = master
-        master.title("Notepad")
+def zoom_image(img, new_width):
+    """
+    Keep the aspect ratio of image
+    :param img: img = Image.open('path/to/image.jpg')
+    :param new_width: value of new width set
+    :return: the image with new size
+    """
 
-        self.textarea = tk.Text(master)
-        self.textarea.pack(fill=tk.BOTH, expand=True)
+    # Get the original size of the image
+    width, height = img.size
 
-        self.menu = tk.Menu(master)
-        self.file_menu = tk.Menu(self.menu, tearoff=0)
-        self.file_menu.add_command(label="New", command=self.new_file) # create/add a record
-        self.file_menu.add_command(label="Open", command=self.open_file) # open a notebook from the database
-        self.menu.add_cascade(label="File", menu=self.file_menu)
+    # Calculate the aspect ratio of the image
+    aspect_ratio = width / height
 
-        master.config(menu=self.menu)
+    # Calculate the new height of the image based on a width of 100 pixels
+    new_height = int(new_width / aspect_ratio)
 
-    def open_file(self):
-        # database_path = r'D:/UserFiles/文档/GitHub/bookNotesProject/db/data/mydatabase.db'
-        database_path = r'E:/PythonCode/practices/bookNotesProject/db/data/mydatabase.db'
-        col_names, rows = data_control.get_table_data(database_path)
+    # Resize the image using Lanczos resampling
+    img = img.resize((100, new_height), Image.LANCZOS)
 
-        # Create a frame to hold the table and buttons
-        self.dialog = tk.Toplevel()
-        self.dialog.title("Table View")
-        frame = tk.Frame(self.dialog)
-        frame.pack(side="top", fill="both", expand=True)
-
-        # Create a table widget
-        style = ttk.Style()
-        style.configure("Treeview.Heading", rowheight=400)
-        style.configure("Treeview", rowheight=30)
-        table = ttk.Treeview(frame)
-        table.pack(side="left", fill="both", expand=True)
-
-        # Define the columns
-        table['columns'] = col_names
-
-        # Format the columns
-        table.column('#0', width=0, stretch=tk.NO)
-        for col_name in col_names:
-            table.column(str(col_name), anchor=tk.CENTER, width=100)
-
-        # Create the headings
-        table.heading('#0', text='', anchor=tk.CENTER)
-        for col_name in col_names:
-            table.heading(str(col_name).lower(), text=str(col_name), anchor=tk.CENTER)
-
-        # Add the data to the table
-        for row in rows:
-            table.insert(parent='', index='end', iid=row[0], values=row)
-
-        # Create a frame to hold the buttons
-        button_frame = tk.Frame(frame)
-        button_frame.pack(side="right", fill="y")
-        tk.Frame(button_frame, height=25).pack(side="top", fill="x")
-
-        # Create a button for each row in the table
-        for item in table.get_children():
-            button = tk.Button(button_frame, text="Edit")
-            button.configure(width=5, height=1)
-            button.pack(side="top", fill="x")
+    # Create a Tkinter PhotoImage object from the resized image
+    return img
 
 
-    def new_file(self):
-        self.textarea.delete(1.0, tk.END)
-        self.master.title("Untitled - Notepad")
-        self.file_path = None
-        self.dialog = tk.Toplevel()
-        self.dialog.title("New Event")
+# Connect to the database
+database_path = r'D:/UserFiles/文档/GitHub/bookNotesProject/db/data/mydatabase.db'
+conn = sqlite3.connect(database_path)
+c = conn.cursor()
 
-        # create frames to place entries and labels and buttons
-        entry_frame = tk.Frame(self.dialog)
-        entry_frame.pack(side="top", fill="both", expand=True)
-
-        entry_frame.columnconfigure(0, minsize=10)  # column to place labels
-        entry_frame.columnconfigure(1, weight=1)  # column to place entries
-        entry_frame.columnconfigure(2, minsize=20)  # column for margin on right side
-
-        button_frame = tk.Frame(self.dialog)
-        button_frame.pack(side="top", fill="both", expand=True)
-        button_frame.columnconfigure(0, minsize=20)
-        button_frame.columnconfigure(1, weight=1)
-        button_frame.columnconfigure(2, weight=1)
-        button_frame.columnconfigure(3, minsize=20)
-
-        bottom_frame = tk.Frame(self.dialog, height=10)
-        bottom_frame.pack(side="top")
-
-
-        # place labels and entries
-        tk.Label(entry_frame, text="Title:", width=10).grid(row=0, column=0)
-        tk.Label(entry_frame, text="Time:", width=10).grid(row=1, column=0)
-        tk.Label(entry_frame, text="Note:", width=10).grid(row=2, column=0)
-        tk.Label(entry_frame, text="location:", width=10).grid(row=3, column=0)
-        self.title_entry = tk.Entry(entry_frame)
-        self.time_entry = tk.Entry(entry_frame)
-        self.note_entry = tk.Entry(entry_frame)
-        self.location_entry = tk.Entry(entry_frame)
-        self.title_entry.grid(row=0, column=1, sticky="ew")
-        self.time_entry.grid(row=1, column=1, sticky="ew")
-        self.note_entry.grid(row=2, column=1, sticky="ew")
-        self.location_entry.grid(row=3, column=1, sticky="ew")
-
-        self.image_paths = []
-
-        def browse_file():
-            self.image_paths = filedialog.askopenfilenames(initialdir=os.getcwd(), title="Select image",
-                                                  filetypes=(("jpeg files", "*.jpg"), ("all files", "*.*")))
-
-        def save_data_to_database():
-            title = self.title_entry.get()
-            time = self.time_entry.get()
-            notes = self.note_entry.get()
-            location = self.location_entry.get()
-            image_paths = self.image_paths
-            data_control.insert_data(title, time, notes, location, image_paths)
-            self.dialog.destroy()
-
-        tk.Button(button_frame, text="添加图片", command=browse_file)\
-            .grid(row=0, column=1, sticky="ew")
-        tk.Button(button_frame, text="保存", command=save_data_to_database).grid(row=1, column=1, sticky="w")
-        tk.Button(button_frame, text="取消", command=self.dialog.destroy).grid(row=1, column=2, sticky="e")
-
-
-    def delete_data(self):
-        pass
-
+# Retrieve the image file paths from the database
+c.execute("SELECT data FROM image_table WHERE event_id=?", ('940ade2b-f141-4152-b250-11b972776184',))
+images_data = [row[0] for row in c.fetchall()]
 
 root = tk.Tk()
-notepad = Notepad(root)
+
+
+# Create a canvas to display the images
+canvas = tk.Canvas(root, width=110 * len(images_data), height=300)
+canvas.pack()
+
+# Loop through the image file paths and display the images on the canvas
+
+x_coordinate = 0
+photo_list = []
+for i, image_data in enumerate(images_data):
+    # Create the Pillow image and Tkinter PhotoImage objects
+    img = Image.open(io.BytesIO(image_data))
+    new_width = 100
+    # print(x_coordinate, x_coordinate+new_width)
+    img = zoom_image(img, new_width)
+    photo_list.append(ImageTk.PhotoImage(img))
+
+    # Display the image on the canvas
+    canvas.create_image(x_coordinate, 0, image=photo_list[i], anchor=tk.NW)
+    x_coordinate += 10 + new_width
+
+    # break
+
 root.mainloop()

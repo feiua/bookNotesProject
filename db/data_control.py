@@ -34,7 +34,7 @@ def insert_data(title, time, notes, location, image_paths):
               (str(event_id), title, time, notes, location))
     print(event_id)
 
-    # Read the image data from files
+    # Read the image data from files and insert them into image_table
     for each_image_path in image_paths:
         with open(each_image_path, 'rb') as f:
             image_data = f.read()
