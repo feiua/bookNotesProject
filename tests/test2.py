@@ -11,8 +11,7 @@
 import sqlite3
 import os
 import io
-import tkinter as tk
-from tkinter import ttk
+from PyQt5 import QtWidgets, QtGui, QtCore
 from PIL import Image, ImageTk
 
 
@@ -36,8 +35,8 @@ def zoom_image(img, new_width):
     # Resize the image using Lanczos resampling
     img = img.resize((100, new_height), Image.LANCZOS)
 
-    # Create a Tkinter PhotoImage object from the resized image
-    return img
+    # Create a Qt QPixmap object from the resized image
+    return QtGui.QPixmap.fromImage(ImageQt(img))
 
 
 # Connect to the database
@@ -49,38 +48,45 @@ c = conn.cursor()
 c.execute("SELECT data FROM image_table WHERE event_id=?", ('940ade2b-f141-4152-b250-11b972776184',))
 images_data = [row[0] for row in c.fetchall()]
 
-root = tk.Tk()
+app = QtWidgets.QApplication([])
+
+mother_frame = QtWidgets.QWidget()
+mother_frame.show()
+button = QtWidgets.QPushButton("Hover over me", mother_frame)
+button.show()
+
+preview_window = QtWidgets.QWidget()
+preview_window.hide()
+
+def show_preview(event):
+    # Create a new window to display the preview
+    preview_window.show()
+    preview_window.setWindowTitle("Image Preview")
+
+    # Create a layout to display the images
+    layout = QtWidgets.QHBoxLayout(preview_window)
+
+    x_coordinate = 0
+    pixmap_list = []
+    new_width = 100
+    for i, image_data in enumerate(images_data):
+        # Create the Pillow image and Qt QPixmap objects
+        img = Image.open(io.BytesIO(image_data))
+        pixmap = zoom_image(img, new_width)
+        pixmap_list.append(pixmap)
+
+        # Display the image on the layout
+        label = QtWidgets.QLabel(preview_window)
+        label.setPixmap(pixmap_list[i])
+        layout.addWidget(label)
+        x_coordinate += 10 + new_width
 
 
-# Create a canvas to display the images
-canvas = tk.Canvas(root, width=110 * len(images_data), height=300)
-canvas.pack()
+def hide_preview(event):
+    # Code to hide preview of images
+    preview_window.hide()
 
-# Loop through the image file paths and display the images on the canvas
+button.enterEvent = show_preview
+button.leaveEvent = hide_preview
 
-x_coordinate = 0
-# Create the Pillow image and Tkinter PhotoImage objects
-image_data0 = images_data[0]
-img0 = Image.open(io.BytesIO(image_data0))
-new_width = 100
-# print(x_coordinate, x_coordinate+new_width)
-img0 = zoom_image(img0, new_width)
-photo0 = ImageTk.PhotoImage(img0)
-# Display the image on the canvas
-canvas.create_image(x_coordinate, 0, image=photo0, anchor=tk.NW)
-
-x_coordinate += 10 + new_width
-image_data1 = images_data[1]
-img1 = Image.open(io.BytesIO(image_data1))
-new_width = 100
-# print(x_coordinate, x_coordinate+new_width)
-img1 = zoom_image(img1, new_width)
-photo1 = ImageTk.PhotoImage(img1)
-
-# Display the image on the canvas
-canvas.create_image(x_coordinate, 0, image=photo1, anchor=tk.NW)
-x_coordinate += 10 + new_width
-
-    # break
-
-root.mainloop()
+app.exec_()

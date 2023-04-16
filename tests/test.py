@@ -54,8 +54,8 @@ mother_frame.pack()
 button = ttk.Button(mother_frame, text="Hover over me")
 button.pack()
 
-# preview_window = tk.Toplevel()
-# preview_window.destroy()
+preview_window = tk.Toplevel()
+preview_window.destroy()
 
 def show_preview(event):
     # Create a new window to display the preview
