@@ -1,77 +1,84 @@
-#!/usr/bin/env python
-# _*_ coding.utf-8 _*_
-# @Site    : 
-# 开发团队: 待君加入
-# 开发人员：Lenovo
-# 开发时间：2020-09-2616:18
-# 文件名称：test.py
-# 开发工具：PyCharm
+import sys
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (QApplication, QWidget, QInputDialog, QFormLayout, QPushButton, QLineEdit)
 
 
-import sqlite3
-import os
-import io
-import tkinter as tk
-from tkinter import ttk
-from PIL import Image, ImageTk
+class DemoInputDialog(QWidget):
+    def __init__(self, parent=None):
+        super(DemoInputDialog, self).__init__(parent)
+
+        # 设置窗口标题
+        self.setWindowTitle('实战PyQt5: QInputDialog Demo!')
+        # 设置窗口大小
+        self.resize(320, 240)
+        self.initUi()
+
+    def initUi(self):
+        # 创建一个表单布局
+        mainLayout = QFormLayout(self)
+
+        # 设置内部控件之间的间隔
+        mainLayout.setSpacing(16)
+        min_width = 120
+
+        btnGetSel = QPushButton('列表选择输入对话框', self)
+        btnGetSel.setMinimumWidth(min_width)
+        btnGetSel.clicked.connect(self.onGetSelItem)
+
+        self.infoSel = QLineEdit(self)
+        self.infoSel.setReadOnly(True)
+        mainLayout.addRow(btnGetSel, self.infoSel)
+        btnGetTxt = QPushButton('字符串输入对话框', self)
+        btnGetTxt.setMinimumWidth(min_width)
+        btnGetTxt.clicked.connect(self.onGetText)
+
+        self.infoTxt = QLineEdit(self)
+        self.infoTxt.setReadOnly(True)
+        mainLayout.addRow(btnGetTxt, self.infoTxt)
+        btnGetInt = QPushButton('整数输入对话框')
+        btnGetInt.setMinimumWidth(min_width)
+        btnGetInt.clicked.connect(self.onGetInt)
+
+        self.infoInt = QLineEdit(self)
+        self.infoInt.setReadOnly(True)
+        mainLayout.addRow(btnGetInt, self.infoInt)
+        btnGetDbl = QPushButton('浮点数输入对话框')
+        btnGetDbl.setMinimumWidth(min_width)
+        btnGetDbl.clicked.connect(self.onGetDouble)
+
+        self.infoDbl = QLineEdit(self)
+        self.infoDbl.setReadOnly(True)
+        mainLayout.addRow(btnGetDbl, self.infoDbl)
+        self.setLayout(mainLayout)
+
+    def onGetSelItem(self):
+        # 创建元组并并定义初始值
+        items = ('C', 'C++', 'C#', 'Java', 'Java Script', 'Go', 'Python')
+        # 获取item输入的值，以及ok键的点击与否(True 或False)
+        item, ok = QInputDialog.getItem(self, "选择输入对话框", '语言列表', items, 0, False)
+        if ok and item:
+            # 满足条件时，设置单行文本框的文本
+            self.infoSel.setText(item)
+
+    def onGetText(self):
+        text, ok = QInputDialog.getText(self, '文本输入对话框', '输入姓名：')
+        if ok:
+            self.infoTxt.setText(str(text))
+
+    def onGetInt(self):
+        num, ok = QInputDialog.getInt(self, '整数输入对话框', '输入整数')
+        if ok:
+            self.infoInt.setText(str(num))
+
+    def onGetDouble(self):
+        value, ok = QInputDialog.getDouble(self, '浮点数输入对话框', '输入浮点数')
+        if ok:
+            self.infoDbl.setText(str(value))
 
 
-def zoom_image(img, new_width):
-    """
-    Keep the aspect ratio of image
-    :param img: img = Image.open('path/to/image.jpg')
-    :param new_width: value of new width set
-    :return: the image with new size
-    """
-
-    # Get the original size of the image
-    width, height = img.size
-
-    # Calculate the aspect ratio of the image
-    aspect_ratio = width / height
-
-    # Calculate the new height of the image based on a width of 100 pixels
-    new_height = int(new_width / aspect_ratio)
-
-    # Resize the image using Lanczos resampling
-    img = img.resize((100, new_height), Image.LANCZOS)
-
-    # Create a Tkinter PhotoImage object from the resized image
-    return img
-
-
-# Connect to the database
-database_path = r'D:/UserFiles/文档/GitHub/bookNotesProject/db/data/mydatabase.db'
-conn = sqlite3.connect(database_path)
-c = conn.cursor()
-
-# Retrieve the image file paths from the database
-c.execute("SELECT data FROM image_table WHERE event_id=?", ('940ade2b-f141-4152-b250-11b972776184',))
-images_data = [row[0] for row in c.fetchall()]
-
-root = tk.Tk()
-
-
-# Create a canvas to display the images
-canvas = tk.Canvas(root, width=110 * len(images_data), height=300)
-canvas.pack()
-
-# Loop through the image file paths and display the images on the canvas
-
-x_coordinate = 0
-photo_list = []
-for i, image_data in enumerate(images_data):
-    # Create the Pillow image and Tkinter PhotoImage objects
-    img = Image.open(io.BytesIO(image_data))
-    new_width = 100
-    # print(x_coordinate, x_coordinate+new_width)
-    img = zoom_image(img, new_width)
-    photo_list.append(ImageTk.PhotoImage(img))
-
-    # Display the image on the canvas
-    canvas.create_image(x_coordinate, 0, image=photo_list[i], anchor=tk.NW)
-    x_coordinate += 10 + new_width
-
-    # break
-
-root.mainloop()
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    window = DemoInputDialog()
+    window.show()
+    sys.exit(app.exec())

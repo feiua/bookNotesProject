@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QFileDialog, QInputDialog
 
 
 class Notebook(QMainWindow):
@@ -24,7 +24,16 @@ class Notebook(QMainWindow):
         self.show()
 
     def newFile(self):
-        # Code to create a new file goes here
+        name, ok = QInputDialog.getText(self, 'New Notebook', 'Notebook Name:')
+        if ok:
+            description, ok = QInputDialog.getText(self, 'New Notebook', 'Description:')
+            if ok:
+                time, ok = QInputDialog.getText(self, 'New Notebook', 'Time:')
+                if ok:
+                    location, ok = QInputDialog.getText(self, 'New Notebook', 'Location:')
+                    if ok:
+                        # Code to create a new file with the given information goes here
+                        pass
         pass
 
     def openFile(self):
