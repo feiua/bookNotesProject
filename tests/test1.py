@@ -25,31 +25,31 @@ class DemoInputDialog(QWidget):
         btnGetSel = QPushButton('列表选择输入对话框', self)
         btnGetSel.setMinimumWidth(min_width)
         btnGetSel.clicked.connect(self.onGetSelItem)
-
         self.infoSel = QLineEdit(self)
         self.infoSel.setReadOnly(True)
         mainLayout.addRow(btnGetSel, self.infoSel)
+
         btnGetTxt = QPushButton('字符串输入对话框', self)
         btnGetTxt.setMinimumWidth(min_width)
         btnGetTxt.clicked.connect(self.onGetText)
-
         self.infoTxt = QLineEdit(self)
         self.infoTxt.setReadOnly(True)
         mainLayout.addRow(btnGetTxt, self.infoTxt)
+
         btnGetInt = QPushButton('整数输入对话框')
         btnGetInt.setMinimumWidth(min_width)
         btnGetInt.clicked.connect(self.onGetInt)
-
         self.infoInt = QLineEdit(self)
         self.infoInt.setReadOnly(True)
         mainLayout.addRow(btnGetInt, self.infoInt)
+
         btnGetDbl = QPushButton('浮点数输入对话框')
         btnGetDbl.setMinimumWidth(min_width)
         btnGetDbl.clicked.connect(self.onGetDouble)
-
         self.infoDbl = QLineEdit(self)
         self.infoDbl.setReadOnly(True)
         mainLayout.addRow(btnGetDbl, self.infoDbl)
+
         self.setLayout(mainLayout)
 
     def onGetSelItem(self):
