@@ -25,20 +25,16 @@ class Notebook(QMainWindow):
         self.show()
 
     def newFile(self):
-        # name, ok = QInputDialog.getText(self, 'New Notebook', 'Notebook Name:')
-        # if ok:
-        #     description, ok = QInputDialog.getText(self, 'New Notebook', 'Description:')
-        #     if ok:
-        #         time, ok = QInputDialog.getText(self, 'New Notebook', 'Time:')
-        #         if ok:
-        #             location, ok = QInputDialog.getText(self, 'New Notebook', 'Location:')
-        #             if ok:
-        #                 # Code to create a new file with the given information goes here
-        #                 pass
+        # pump up a dialog window for inserting information of a new notebook
+        book_dialog = CreateNewNotebookWindow()
+        book_dialog.exec_()
 
-        # 创建一个表单布局
-        widget = CreateNewNotebookWindow()
-        widget.exec()
+        # insert information of a new notebook into database
+        name = book_dialog.notebook_name
+        description = book_dialog.notebook_desc
+        time = book_dialog.notebook_time
+        location = book_dialog.notebook_loca
+        print(name, description, time, location)
 
     def openFile(self):
         options = QFileDialog.Options()

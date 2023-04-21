@@ -20,9 +20,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="d88d6f70-8321-421e-95ab-6f1e3a682233" object-ref="schemas/mydatabase/tables/image_table" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="d88d6f70-8321-421e-95ab-6f1e3a682233" dataset="mydatabase.event_table" active-filter-id="a6b73878-c7ba-4ddc-bb55-627d56bb5ab0">
@@ -35,6 +33,7 @@
         <condition column="id" operator="is not null" value="" active="true" />
       </filter>
     </filter-actions>
+    <filter-actions connection-id="d88d6f70-8321-421e-95ab-6f1e3a682233" dataset="main.image_table" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="d88d6f70-8321-421e-95ab-6f1e3a682233" dataset="mydatabase.images" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="d88d6f70-8321-421e-95ab-6f1e3a682233" dataset="mydatabase.event_database" active-filter-id="EMPTY_FILTER" />
   </component>
@@ -70,8 +69,7 @@
           <port value="" />
           <database value="" />
           <files>
-            <file path="sqlite.db" schema="main" />
-            <file path="D:\UserFiles\文档\GitHub\bookNotesProject\db\data\mydatabase.db" schema="mydatabase" />
+            <file path="E:\PythonCode\practices\bookNotesProject\db\data\mydatabase.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />
