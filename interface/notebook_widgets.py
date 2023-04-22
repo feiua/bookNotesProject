@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import *
+from db.data_control import *
 
 
 class CreateNewNotebookWindow(QDialog):
@@ -11,6 +12,7 @@ class CreateNewNotebookWindow(QDialog):
         self.notebook_time = str()
         self.notebook_loca = str()
 
+        self.SUCCESSFULLY_ESTABLISHED = False
 
         # 设置输入框组健
         self.time_line = QLineEdit(self)
@@ -20,8 +22,12 @@ class CreateNewNotebookWindow(QDialog):
 
         # 设置窗口标题
         self.setWindowTitle('实战PyQt5: QInputDialog Demo!')
+
         # 设置窗口大小
-        self.resize(320, 240)
+        screen = QDesktopWidget().screenGeometry()
+        scr_width, scr_height = screen.width(), screen.height()
+        self.resize(int(scr_width/4), int(scr_height/3))
+
         self.initUi()
 
     def initUi(self):
@@ -44,27 +50,27 @@ class CreateNewNotebookWindow(QDialog):
         self.desc_line.setReadOnly(True)
         mainLayout.addRow(description_btn, self.desc_line)
 
-        time_btn = QPushButton('Description:', self)
+        time_btn = QPushButton('Time:', self)
         time_btn.setMinimumWidth(min_width)
         time_btn.clicked.connect(self.onGetTime)
         self.time_line.setReadOnly(True)
         mainLayout.addRow(time_btn, self.time_line)
 
-        loaca_btn = QPushButton('Description:', self)
-        loaca_btn.setMinimumWidth(min_width)
-        loaca_btn.clicked.connect(self.onGetLoca)
+        loac_btn = QPushButton('Location:', self)
+        loac_btn.setMinimumWidth(min_width)
+        loac_btn.clicked.connect(self.onGetLoca)
         self.loca_line.setReadOnly(True)
-        mainLayout.addRow(loaca_btn, self.loca_line)
+        mainLayout.addRow(loac_btn, self.loca_line)
 
-        save_btn = QPushButton('Save', self)
-        save_btn.setMinimumWidth(min_width)
-        save_btn.clicked.connect(self.close())
+        create_btn = QPushButton('Create', self)
+        create_btn.setMinimumWidth(min_width)
+        create_btn.clicked.connect(self.save_info)
 
         cancel_btn = QPushButton('Cancel', self)
         cancel_btn.setMinimumWidth(min_width)
-        cancel_btn.clicked.connect(self.close())
+        cancel_btn.clicked.connect(self.reject)
 
-        mainLayout.addRow(save_btn, cancel_btn)
+        mainLayout.addRow(create_btn, cancel_btn)
 
         self.setLayout(mainLayout)
 
@@ -87,3 +93,10 @@ class CreateNewNotebookWindow(QDialog):
         self.notebook_loca, ok = QInputDialog.getText(self, '地址输入对话框', '输入地址：')
         if ok:
             self.loca_line.setText(str(self.notebook_loca))
+
+    def save_info(self, ):
+        # If push "Save" button, self.SUCCESSFULLY_ESTABLISHED changes from "False" to "True"
+        self.SUCCESSFULLY_ESTABLISHED = True
+
+        # Close window
+        self.accept()

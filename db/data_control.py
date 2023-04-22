@@ -5,13 +5,69 @@ import tkinter as tk
 from tkinter import ttk
 
 
-def insert_data(title, time, notes, location, image_paths):
-    # database_path = r'D:/UserFiles/文档/GitHub/bookNotesProject/db/data/mydatabase.db'
-    database_path = r'E:/PythonCode/practices/bookNotesProject/db/data/mydatabase.db'
+# Create a table and save general information of a notebook
+def create_notebook(note_name, note_desc, note_time, note_loca):
+    """
+    Insert general information of notebook in notebook_table; create a table to save events.
+    :param note_name:
+    :param note_desc:
+    :param note_time:
+    :param note_loca:
+    :return:
+    """
+    # Get database path
+    folder_dir = os.path.abspath(os.path.dirname(__file__))
+    folder_dir = folder_dir.replace('\\', '/')
+    database_path = '{database_folder}/{database_name}'.\
+        format(database_folder=folder_dir, database_name='data/mydatabase.db')
+
     conn = sqlite3.connect(database_path)
     c = conn.cursor()
 
-    # Create a table to store the events
+    # Create a table to store general information of the notebook
+    c.execute('''CREATE TABLE IF NOT EXISTS notebook_table
+                             (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                             notebook_id TEXT NOT NULL,
+                             name TEXT NOT NULL,
+                             description TEXT NULL,
+                             time TEXT NULL,
+                             location TEXT NULL);''')
+
+    promp = "ALTER TABLE {table_name} ADD CONSTRAINT {constraint_name} UNIQUE ({column_name});". \
+        format(table_name="notebook_table", constraint_name="unique_column", column_name="note_name")
+    c.execute(promp)
+
+    # insert general information into notebook_table
+    notebook_id = uuid.uuid4()
+    c.execute("INSERT INTO notebook_table (notebook_id, name, description, time, location) VALUES (?, ?, ?, ?, ?)",
+              (str(notebook_id), note_name, note_desc, note_time, note_loca))
+
+    # Create the table of the notebook
+    promp = ''' CREATE TABLE IF NOT EXISTS {table_name}
+                                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                 event_id TEXT NOT NULL,
+                                 title TEXT NOT NULL,
+                                 time TEXT NULL,
+                                 notes TEXT NULL,
+                                 location TEXT NULL);'''.format(table_name=note_name)
+    c.execute(promp)
+
+    # Commit changes and close connection
+    conn.commit()
+    conn.close()
+
+# Insert event data
+def insert_data(title, time, notes, location, image_paths):
+    # Get database path
+    folder_dir = os.path.abspath(os.path.dirname(__file__))
+    folder_dir = folder_dir.replace('\\', '/')
+    database_path = '{database_folder}/{database_name}'. \
+        format(database_folder=folder_dir, database_name='data/mydatabase.db')
+
+    conn = sqlite3.connect(database_path)
+    c = conn.cursor()
+
+    # Create a table to store events
     c.execute('''CREATE TABLE IF NOT EXISTS event_table
                          (id INTEGER PRIMARY KEY AUTOINCREMENT,
                          event_id TEXT NOT NULL,
@@ -20,7 +76,7 @@ def insert_data(title, time, notes, location, image_paths):
                          notes TEXT NULL,
                          location TEXT NULL);''')
 
-    # Create a table to store the images
+    # Create a table to store images
     conn.execute('''CREATE TABLE IF NOT EXISTS image_table
                      (id INTEGER PRIMARY KEY AUTOINCREMENT,
                      event_id TEXT NOT NULL,

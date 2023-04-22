@@ -12,7 +12,7 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="d88d6f70-8321-421e-95ab-6f1e3a682233">
+    <connection id="1f3170a0-8253-45c8-b930-373ff5907e23">
       <console name="Connection" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
@@ -23,19 +23,7 @@
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="d88d6f70-8321-421e-95ab-6f1e3a682233" dataset="mydatabase.event_table" active-filter-id="a6b73878-c7ba-4ddc-bb55-627d56bb5ab0">
-      <filter id="a6b73878-c7ba-4ddc-bb55-627d56bb5ab0" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="id" operator="is not null" value="" active="true" />
-      </filter>
-    </filter-actions>
-    <filter-actions connection-id="d88d6f70-8321-421e-95ab-6f1e3a682233" dataset="mydatabase.image_table" active-filter-id="db322e4a-dffa-47a3-a14c-15091bc957a8">
-      <filter id="db322e4a-dffa-47a3-a14c-15091bc957a8" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="id" operator="is not null" value="" active="true" />
-      </filter>
-    </filter-actions>
-    <filter-actions connection-id="d88d6f70-8321-421e-95ab-6f1e3a682233" dataset="main.image_table" active-filter-id="EMPTY_FILTER" />
-    <filter-actions connection-id="d88d6f70-8321-421e-95ab-6f1e3a682233" dataset="mydatabase.images" active-filter-id="EMPTY_FILTER" />
-    <filter-actions connection-id="d88d6f70-8321-421e-95ab-6f1e3a682233" dataset="mydatabase.event_database" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="1f3170a0-8253-45c8-b930-373ff5907e23" dataset="main.sqlite_sequence" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
@@ -54,7 +42,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="d88d6f70-8321-421e-95ab-6f1e3a682233" active="true" signed="true">
+      <connection id="1f3170a0-8253-45c8-b930-373ff5907e23" active="true" signed="true">
         <database>
           <name value="Connection" />
           <description value="" />
@@ -69,7 +57,7 @@
           <port value="" />
           <database value="" />
           <files>
-            <file path="E:\PythonCode\practices\bookNotesProject\db\data\mydatabase.db" schema="main" />
+            <file path="D:\UserFiles\文档\GitHub\bookNotesProject\db\data\mydatabase.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />
@@ -516,7 +504,7 @@
       <regional-settings>
         <date-format value="MEDIUM" />
         <number-format value="UNGROUPED" />
-        <locale value="SYSTEM_DEFAULT" />
+        <locale value="haw_US" />
         <use-custom-formats value="false" />
       </regional-settings>
       <environment>
