@@ -33,9 +33,9 @@ def create_notebook(note_name, note_desc, note_time, note_loca):
                              time TEXT NULL,
                              location TEXT NULL);''')
 
-    promp = "ALTER TABLE {table_name} ADD CONSTRAINT {constraint_name} UNIQUE ({column_name});". \
-        format(table_name="notebook_table", constraint_name="unique_column", column_name="note_name")
-    c.execute(promp)
+    # promp = "ALTER TABLE {table_name} ADD CONSTRAINT {constraint_name} UNIQUE ({column_name});". \
+    #     format(table_name="notebook_table", constraint_name="unique_column", column_name="note_name")
+    # c.execute(promp)
 
     # insert general information into notebook_table
     notebook_id = uuid.uuid4()

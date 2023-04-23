@@ -21,7 +21,11 @@ class Notebook(QMainWindow):
         openAction.triggered.connect(self.openNotebook)
         fileMenu.addAction(openAction)
 
-        self.setGeometry(300, 300, 350, 300)
+        # 设置窗口大小
+        screen = QDesktopWidget().screenGeometry()
+        scr_width, scr_height = screen.width(), screen.height()
+        self.resize(int(scr_width/4*3), int(scr_height/3*2))
+
         self.setWindowTitle('Notebook')
         self.show()
 
@@ -39,6 +43,8 @@ class Notebook(QMainWindow):
         if book_dialog.SUCCESSFULLY_ESTABLISHED:
             dataCon.create_notebook(name, description, time, location)
 
+        else:
+            pass
 
 
     def openNotebook(self):

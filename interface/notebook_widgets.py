@@ -21,7 +21,7 @@ class CreateNewNotebookWindow(QDialog):
         self.loca_line = QLineEdit(self)
 
         # 设置窗口标题
-        self.setWindowTitle('实战PyQt5: QInputDialog Demo!')
+        self.setWindowTitle('Create Notebook')
 
         # 设置窗口大小
         screen = QDesktopWidget().screenGeometry()
