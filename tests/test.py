@@ -1,5 +1,4 @@
 import sys
-from PyQt5.QtWidgets import *
 from interface.notebook_widgets import *
 from db import data_control as dataCon
 
