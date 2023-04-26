@@ -1,6 +1,8 @@
 import sys
 from interface.notebook_widgets import *
 from db import data_control as dataCon
+from PyQt5.QtWidgets import *
+from PyQt5 import QtCore, QtWidgets
 
 
 class Notebook(QMainWindow):
@@ -8,7 +10,6 @@ class Notebook(QMainWindow):
         super(Notebook, self).__init__(parent)
         self.initUI()
 
-    def initUI(self):
         menubar = self.menuBar()
         fileMenu = menubar.addMenu('File')
 
