@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../bookNotesProject/.idea/bookNotesProject.iml" filepath="$PROJECT_DIR$/../bookNotesProject/.idea/bookNotesProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../bhmlpythonpyqt5msyqlxsglxt/01项目源码/03studentms/.idea/03studentms.iml" filepath="$PROJECT_DIR$/../bhmlpythonpyqt5msyqlxsglxt/01项目源码/03studentms/.idea/03studentms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/bookNotesProject.iml" filepath="$PROJECT_DIR$/.idea/bookNotesProject.iml" />
     </modules>
   </component>
 </project>
