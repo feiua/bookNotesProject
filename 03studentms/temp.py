@@ -40,24 +40,6 @@ class CheckBoxHeader(QHeaderView):
             self.style().drawControl(QStyle.CE_CheckBox, option, painter)
 
 
-    # 覆写鼠标点击事件(点击全选框效果)
-    def mousePressEvent(self, event):
-        index = self.logicalIndexAt(event.pos())
-        if 0 == index:
-            x = self.sectionPosition(index)
-            if x + self._x_offset < event.pos().x() < x + self._x_offset + self._width and self._y_offset < event.pos().y() < self._y_offset + self._height:
-                if self.isOn:
-                    self.isOn = False
-                    print(self.isOn)
-                else:
-                    self.isOn = True
-                    print(self.isOn)
-                    # 当用户点击了行表头复选框，发射 自定义信号 select_all_clicked()
-                self.select_all_clicked.emit(self.isOn)
-                self.updateSection(0)
-        super(CheckBoxHeader, self).mousePressEvent(event)
-
-
 class MainUi(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
