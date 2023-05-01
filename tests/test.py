@@ -10,6 +10,23 @@ class Notebook(QMainWindow):
         super(Notebook, self).__init__(parent)
         self.initUI()
 
+        # 设置窗口大小
+        screen = QDesktopWidget().screenGeometry()
+        scr_width, scr_height = screen.width(), screen.height()
+        self.resize(int(scr_width/4*3), int(scr_height/3*2))
+
+        # 创建Notebook窗口的整体布局
+        self.main_widget = QtWidgets.QWidget()  # 创建窗口主部件
+        self.main_layout = QtWidgets.QGridLayout()  # 创建主部件的网格布局
+        self.main_widget.setLayout(self.main_layout)  # 设置窗口主部件布局为网格布局
+
+        self.left_widget = QtWidgets.QWidget()  # 创建左侧部件
+        self.left_widget.setObjectName('left_widget')  # 部件命名，设置样式用
+        self.left_layout = QtWidgets.QGridLayout()  # 创建左侧部件的网格布局层
+        self.left_widget.setLayout(self.left_layout)  # 设置左侧部件布局为网格
+        self.main_layout.addWidget(self.left_widget, 0, 0, 12, 2)  # 左侧部件在第0行第0列，占12行2列
+        self.setCentralWidget(self.main_widget)  # 设置窗口主部件
+
         menubar = self.menuBar()
         fileMenu = menubar.addMenu('File')
 
@@ -21,10 +38,6 @@ class Notebook(QMainWindow):
         openAction.triggered.connect(self.openNotebook)
         fileMenu.addAction(openAction)
 
-        # 设置窗口大小
-        screen = QDesktopWidget().screenGeometry()
-        scr_width, scr_height = screen.width(), screen.height()
-        self.resize(int(scr_width/4*3), int(scr_height/3*2))
 
         self.setWindowTitle('Notebook')
         self.show()

@@ -250,6 +250,7 @@ class MainUi(QtWidgets.QMainWindow):
         self.label_2 = QtWidgets.QLabel(self.widget)
         self.label_2.setObjectName("label_2")
         self.horizontalLayout.addWidget(self.label_2)
+
         # 姓名输入框
         self.input_name = QtWidgets.QLineEdit(self.widget)
         self.input_name.setObjectName("input_name")
@@ -260,6 +261,7 @@ class MainUi(QtWidgets.QMainWindow):
                                               border: 1px solid #ccc;
                                               border-radius: 5px;
                                               font : 12px  ''')
+
         # 查询按钮
         self.pushButton_2 = QtWidgets.QPushButton(self.widget)
         self.pushButton_2.setObjectName("pushButton_2")
@@ -273,6 +275,7 @@ class MainUi(QtWidgets.QMainWindow):
                                               border-radius: 5px;
                                               color: #fff;
                                               font : 12px  ''')
+
         # 空格
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
@@ -318,7 +321,8 @@ class MainUi(QtWidgets.QMainWindow):
                                               border-radius: 5px;
                                               color: #fff;
                                               font : 12px  ''')
-        # 内容区域
+
+        # 内容区域====================================================================================
         self.verticalLayout.addWidget(self.widget)
         self.tableWidget = QtWidgets.QTableWidget()
         self.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -608,6 +612,7 @@ class MainUi(QtWidgets.QMainWindow):
                                               border: 1px solid #ccc;
                                               border-radius: 5px;
                                               font : 12px  ''')
+
         # 查询按钮
         self.pushButton_2 = QtWidgets.QPushButton(self.widget)
         self.pushButton_2.setObjectName("pushButton_2")
