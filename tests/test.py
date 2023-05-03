@@ -10,10 +10,23 @@ class Notebook(QMainWindow):
         super(Notebook, self).__init__(parent)
         self.initUI()
 
+    def initUI(self):
         # 设置窗口大小
         screen = QDesktopWidget().screenGeometry()
         scr_width, scr_height = screen.width(), screen.height()
         self.resize(int(scr_width/4*3), int(scr_height/3*2))
+
+        # Create menubar on top
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('File')
+
+        newAction = QAction('New', self)
+        newAction.triggered.connect(self.newNotebook)
+        fileMenu.addAction(newAction)
+
+        openAction = QAction('Open', self)
+        openAction.triggered.connect(self.openNotebook)
+        fileMenu.addAction(openAction)
 
         # 创建Notebook窗口的整体布局
         self.main_widget = QtWidgets.QWidget()  # 创建窗口主部件
@@ -26,18 +39,6 @@ class Notebook(QMainWindow):
         self.left_widget.setLayout(self.left_layout)  # 设置左侧部件布局为网格
         self.main_layout.addWidget(self.left_widget, 0, 0, 12, 2)  # 左侧部件在第0行第0列，占12行2列
         self.setCentralWidget(self.main_widget)  # 设置窗口主部件
-
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('File')
-
-        newAction = QAction('New', self)
-        newAction.triggered.connect(self.newNotebook)
-        fileMenu.addAction(newAction)
-
-        openAction = QAction('Open', self)
-        openAction.triggered.connect(self.openNotebook)
-        fileMenu.addAction(openAction)
-
 
         self.setWindowTitle('Notebook')
         self.show()
